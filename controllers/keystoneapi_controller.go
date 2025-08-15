@@ -914,7 +914,7 @@ func (r *KeystoneAPIReconciler) reconcileNormal(
 	// - %-config configmap holding minimal keystone config required to get the service up, user can add additional files to be added to the service
 	// - parameters which has passwords gets added from the OpenStack secret via the init container
 	//
-	err = r.generateServiceConfigMaps(ctx, instance, helper, &configMapVars, memcached, db)
+	err = r.generateServiceConfigMaps(ctx, instance, helper, &configMapVars, memcached, db, transportURL)
 	if err != nil {
 		instance.Status.Conditions.Set(condition.FalseCondition(
 			condition.ServiceConfigReadyCondition,
@@ -1284,6 +1284,7 @@ func (r *KeystoneAPIReconciler) generateServiceConfigMaps(
 	envVars *map[string]env.Setter,
 	mc *memcachedv1.Memcached,
 	db *mariadbv1.Database,
+	transportURL *rabbitmqv1.TransportURL,
 ) error {
 	//
 	// create Configmap/Secret required for keystone input
@@ -1333,6 +1334,7 @@ func (r *KeystoneAPIReconciler) generateServiceConfigMaps(
 		"ProcessNumber":       instance.Spec.HttpdCustomization.ProcessNumber,
 		"EnableSecureRBAC":    instance.Spec.EnableSecureRBAC,
 		"FernetMaxActiveKeys": instance.Spec.FernetMaxActiveKeys,
+		"QuorumQueues":        transportURL.GetQuorumQueues(),
 	}
 
 	templateParameters["KeystoneEndpointPublic"], _ = instance.GetEndpoint(endpoint.EndpointPublic)
