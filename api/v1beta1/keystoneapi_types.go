@@ -19,6 +19,7 @@ package v1beta1
 import (
 	"fmt"
 
+	rabbitmqv1 "github.com/openstack-k8s-operators/infra-operator/apis/rabbitmq/v1beta1"
 	topologyv1 "github.com/openstack-k8s-operators/infra-operator/apis/topology/v1beta1"
 	condition "github.com/openstack-k8s-operators/lib-common/modules/common/condition"
 	"github.com/openstack-k8s-operators/lib-common/modules/common/endpoint"
@@ -212,6 +213,10 @@ type KeystoneAPISpecCore struct {
 	// This is only needed when multiple realms are federated.
 	// Config files mount path is set to /var/lib/httpd/metadata/
 	FederatedRealmConfig string `json:"federatedRealmConfig"`
+
+	// +kubebuilder:validation:Optional
+	// RabbitMQ configuration (username and vhost)
+	RabbitMq rabbitmqv1.RabbitMqConfig `json:"rabbitmq,omitempty"`
 }
 
 // APIOverrideSpec to override the generated manifest of several child resources.

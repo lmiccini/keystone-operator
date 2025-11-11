@@ -1461,6 +1461,16 @@ spec:
                   RabbitMQ instance name
                   Needed to request a transportURL that is created and used in Keystone
                 type: string
+              rabbitmq:
+                description: RabbitMQ configuration (username and vhost)
+                properties:
+                  user:
+                    description: User - RabbitMQ username
+                    type: string
+                  vhost:
+                    description: Vhost - RabbitMQ vhost name
+                    type: string
+                type: object
               region:
                 default: regionOne
                 description: Region - optional region name for the keystone service

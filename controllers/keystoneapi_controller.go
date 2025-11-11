@@ -1287,8 +1287,13 @@ func (r *KeystoneAPIReconciler) transportURLCreateOrUpdate(
 	}
 	op, err := controllerutil.CreateOrUpdate(ctx, r.Client, transportURL, func() error {
 		transportURL.Spec.RabbitmqClusterName = instance.Spec.RabbitMqClusterName
-		err := controllerutil.SetControllerReference(instance, transportURL, r.Scheme)
-		return err
+		if instance.Spec.RabbitMq.User != "" {
+			transportURL.Spec.Username = instance.Spec.RabbitMq.User
+		}
+		if instance.Spec.RabbitMq.Vhost != "" {
+			transportURL.Spec.Vhost = instance.Spec.RabbitMq.Vhost
+		}
+		return controllerutil.SetControllerReference(instance, transportURL, r.Scheme)
 	})
 
 	return transportURL, op, err
