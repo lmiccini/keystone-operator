@@ -118,6 +118,10 @@ require (
 
 replace github.com/openstack-k8s-operators/keystone-operator/api => ./api
 
+replace github.com/openstack-k8s-operators/lib-common/modules/common => github.com/lmiccini/lib-common/modules/common v0.0.0-20260622102304-6eac5e449074
+
+replace github.com/openstack-k8s-operators/infra-operator/apis => github.com/lmiccini/infra-operator/apis v0.0.0-20260620072433-7bda5c00b68f
+
 // mschuppert: map to latest commit from release-4.18 tag
 // must consistent within modules and service operators
 replace github.com/openshift/api => github.com/openshift/api v0.0.0-20250711200046-c86d80652a9e //allow-merging
